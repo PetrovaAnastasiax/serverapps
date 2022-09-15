@@ -2,6 +2,8 @@ package com.example.homework_1;
 
 import java.io.*;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
@@ -13,7 +15,14 @@ public class HelloServlet extends HttpServlet {
         message = "Hello World Servlet!";
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String stageParam = request.getParameter("stage");
+
+        if (stageParam != null) {
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/" + stageParam);
+            dispatcher.forward(request, response);
+        }
+
         response.setContentType("text/html");
 
         PrintWriter out = response.getWriter();
